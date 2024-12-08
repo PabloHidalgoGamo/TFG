@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; margin-bottom: 20px;"><strong>Clases disponibles</strong></h2>
+
+    <ul class="list-group">
+      {% for clase in clases %}
+        <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4><strong>{{ clase.nombre }}</strong></h4>
+            <p><strong>Profesor:</strong> {{ clase.profesor.username }}</p>
+          </div>
+          <a href="{% url 'clase_detail' clase.id %}" class="btn btn-primary">Ver detalles</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item">
+          <p class="text-center">No hay clases disponibles en este momento.</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

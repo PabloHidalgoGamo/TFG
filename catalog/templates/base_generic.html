@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+  {% block title %}<title>Mi Sitio de Clase</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <style>
+    /* Añadir estilo para el sombreado en la navegación */
+    .navbar-item {
+      transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .navbar-item:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Sombreado muy suave en hover */
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mínima al hacer hover */
+    }
+    .active > a {
+      background-color: rgba(255, 255, 255, 0.35) !important; /* Color suave para sección activa */
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Sombra mínima para sección activa */
+    }
+  </style>
+  
+</head>
+
+<body>
+
+  <!-- Barra de navegación superior -->
+  <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #1867B7; color: white;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'inicio' %}" style="color: white;">Mi Sitio de Clase</a>
+      </div>
+
+      <!-- Menú de navegación alineado a la derecha -->
+      <ul class="nav navbar-nav navbar-right">
+        <!-- Mostrar solo si el usuario tiene permisos de alumno -->
+        {% if perms.catalog.puede_realizar_reservas %}
+          <li class="navbar-item {% if request.resolver_match.url_name == 'clase_list' %}active{% endif %}">
+            <a href="{% url 'clase_list' %}" style="color: white;">Realizar reserva</a>
+          </li>
+        {% endif %}
+
+        {% if perms.catalog.puede_ver_reservas_alumno %}
+          <li class="navbar-item {% if request.resolver_match.url_name == 'mis_reservas' %}active{% endif %}">
+            <a href="{% url 'mis_reservas' %}" style="color: white;">Mis reservas</a>
+          </li>
+        {% endif %}
+
+        <!-- Mostrar solo si el usuario tiene permisos de profesor -->
+        {% if perms.catalog.puede_gestionar_clases %}
+          <li class="navbar-item {% if request.resolver_match.url_name == 'gestionar_horarios' %}active{% endif %}">
+            <a href="{% url 'gestionar_horarios' %}" style="color: white;">Establecer horarios</a>
+          </li>
+          <li class="navbar-item {% if request.resolver_match.url_name == 'gestionar_clases' %}active{% endif %}">
+            <a href="{% url 'gestionar_clases' %}" style="color: white;">Establecer clases</a>
+          </li>
+        {% endif %}
+
+        {% if perms.catalog.puede_ver_reservas_profesor %}
+          <li class="navbar-item {% if request.resolver_match.url_name == 'ver_reservas_profesor' %}active{% endif %}">
+            <a href="{% url 'ver_reservas_profesor' %}" style="color: white;">Ver reservas</a>
+          </li>
+        {% endif %}
+        
+        <!-- Mostrar solo si el usuario está autenticado -->
+        {% if user.is_authenticated %}
+          <li class="navbar-item {% if request.resolver_match.url_name == 'perfil_usuario' %}active{% endif %}">
+            <a href="{% url 'perfil_usuario' %}" style="color: white;">Usuario: {{ user.get_username }}</a>
+          </li>
+          <li>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger navbar-btn" style="margin-right: 10px; margin-left: 10px;">Cerrar sesión</button>
+            </form>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Contenido de la página -->
+  <div class="container" style="padding-top: 70px;">
+    {% block content %}{% endblock %}
+  </div>
+
+  {% if messages %}
+  <div class="container" style="margin-top: 20px;">
+    {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</body>
+</html>

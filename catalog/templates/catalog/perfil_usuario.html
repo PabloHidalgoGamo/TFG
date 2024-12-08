@@ -1,0 +1,60 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; margin-bottom: 20px;"><strong>Perfil de Usuario</strong></h2>
+
+    <!-- Formulario para actualizar el perfil -->
+    <form method="post" action="" style="margin-bottom: 30px;">
+      {% csrf_token %}
+      <fieldset>
+        <legend style="color: #1867B7;"><strong>Actualizar Perfil</strong></legend>
+        <div class="form-group">
+          {{ form.as_p }}
+        </div>
+        <div class="text-center">
+          <button type="submit" name="update_profile" class="btn btn-primary">Actualizar Perfil</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- Línea de separación -->
+    <hr style="margin: 40px 0;">
+
+    <!-- Formulario para cambiar la contraseña -->
+    <form method="post" action="">
+      {% csrf_token %}
+      <fieldset>
+        <legend style="color: #1867B7;"><strong>Cambiar Contraseña</strong></legend>
+        
+        <div class="form-group">
+          {{ password_form.old_password.label_tag }}
+          {{ password_form.old_password }}
+          {% if password_form.old_password.errors %}
+            <div class="alert alert-danger" style="margin-top: 5px;">{{ password_form.old_password.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ password_form.new_password1.label_tag }}
+          {{ password_form.new_password1 }}
+          {% if password_form.new_password1.errors %}
+            <div class="alert alert-danger" style="margin-top: 5px;">{{ password_form.new_password1.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ password_form.new_password2.label_tag }}
+          {{ password_form.new_password2 }}
+          {% if password_form.new_password2.errors %}
+            <div class="alert alert-danger" style="margin-top: 5px;">{{ password_form.new_password2.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="text-center">
+          <button type="submit" name="change_password" class="btn btn-warning">Cambiar Contraseña</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

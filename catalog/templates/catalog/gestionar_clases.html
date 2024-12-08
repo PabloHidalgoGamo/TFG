@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; font-weight: bold; margin-bottom: 20px;">Establecer Clases</h2>
+    
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form.as_p }} <!-- Muestra el formulario de clase -->
+      </div>
+      <button type="submit" class="btn btn-primary">Guardar Clase</button>
+    </form>
+
+    <h3 class="text-center" style="color: #1867B7; font-weight: bold; margin-top: 30px;">Clases Existentes</h3>
+
+    {% if clases %}
+      <ul class="list-group">
+        {% for clase in clases %}
+          <li class="list-group-item" style="display: flex; flex-direction: column;">
+            <div>
+              <p><strong>Clase:</strong> {{ clase.nombre }}</p>
+              <p><strong>Horario/s:</strong></p>
+              <ul>
+                {% for horario in clase.horario.all %}
+                  <li>{{ horario.dia }}: {{ horario.hora_inicio|date:"g:i a" }} - {{ horario.hora_fin|date:"g:i a" }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center">No tienes clases disponibles aún.</p>
+    {% endif %}
+  </div>
+{% endblock %}

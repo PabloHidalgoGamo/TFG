@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="d-flex align-items-center justify-content-center" style="height: 80vh;">
+    <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      <h2 class="text-center" style="color: #1867B7; font-weight: bold; margin-bottom: 20px;">Mi Sitio de Clase</h2>
+
+      <p style="font-size: 1.2em; text-align: left;">Bienvenido a <em>Mi Sitio de Clase</em>, una página web que permitirá a los alumnos reservar un sitio en una clase programada por un profesor.</p>
+
+      <h3 style="color: #1867B7; margin-bottom: 20px; text-align: center;"><strong>Contenido</strong></h3>
+
+      <p style="text-align: left;">Actualmente disponemos del siguiente número de:</p>
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <strong>Clases:</strong> {{ num_clases }}
+        </li>
+        <li class="list-group-item">
+          <strong>Sitios:</strong> {{ num_instancias }}
+        </li>
+        <li class="list-group-item">
+          <strong>Sitios disponibles:</strong> {{ num_instancias_disponibles }}
+        </li>
+        <li class="list-group-item">
+          <strong>Horarios:</strong> {{ num_horarios }}
+        </li>
+      </ul>
+
+      <!-- Mostrar solo si el usuario no está autenticado -->
+      {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" class="btn btn-primary btn-block">Iniciar sesión</a>
+        <a href="{% url 'registro' %}" class="btn btn-success btn-block">Registrarse</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; margin-bottom: 20px;"><strong>Cancelar Reserva</strong></h2>
+
+    <p class="text-center">
+      Estás a punto de cancelar tu reserva para la clase <strong>{{ clase_instancia.clase.nombre }}</strong> en el horario<br>
+      <strong>{{ clase_instancia.horario.dia }} ({{ clase_instancia.horario.hora_inicio|date:"g:i a" }} - {{ clase_instancia.horario.hora_fin|date:"g:i a" }})</strong>.
+    </p>
+
+    <p class="text-center">¿Estás seguro de que deseas cancelar esta reserva?</p>
+
+    <form method="post" class="text-center">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Cancelar reserva</button>
+      <a href="{% url 'mis_reservas' %}" class="btn btn-primary" style="margin-left: 10px;">Volver sin cancelar</a>
+    </form>
+  </div>
+{% endblock %}

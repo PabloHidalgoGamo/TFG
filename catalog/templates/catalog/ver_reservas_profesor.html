@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; font-weight: bold; margin-bottom: 20px;">Reservas de tus clases</h2>
+
+    {% if clases.exists %}
+      <!-- Si hay clases, las mostramos -->
+      {% for clase in clases %}
+        <!-- Iteramos por cada horario de la clase -->
+        {% for horario in clase.horario.all %}
+          <h3 style="color: #1867B7;">{{ clase.nombre }} - {{ horario.dia }}: {{ horario.hora_inicio|date:"g:i a" }} - {{ horario.hora_fin|date:"g:i a" }}</h3>
+
+          <h4>Sitios disponibles:</h4>
+          <ul class="list-group">
+            <!-- Iteramos por las instancias de la clase y horario actuales -->
+            {% for instancia in instancias %}
+              {% if instancia.clase == clase and instancia.horario == horario %}
+                <li class="list-group-item">
+                  <strong>Reservado por:</strong>
+                  {% if instancia.alumno %}
+                    {{ instancia.alumno.username }}
+                  {% else %}
+                    No reservado
+                  {% endif %}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      {% endfor %}
+    {% else %}
+      <!-- Mostrar el mensaje si no hay clases -->
+      <p class="text-center">No tienes clases establecidas.</p>
+    {% endif %}
+  </div>
+{% endblock %}

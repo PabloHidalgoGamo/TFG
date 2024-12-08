@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; margin-bottom: 20px;"><strong>Mis Reservas</strong></h2>
+
+    {% if reservas %}
+      <ul class="list-group">
+        {% for reserva in reservas %}
+          <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4><strong>Clase:</strong> {{ reserva.clase.nombre }}</h4>
+              <p><strong>Horario:</strong> {{ reserva.horario.dia }} ({{ reserva.horario.hora_inicio|date:"g:i a" }} - {{ reserva.horario.hora_fin|date:"g:i a" }})</p>
+            </div>
+            <a href="{% url 'cancelar_reserva' reserva.id %}" class="btn btn-danger">Cancelar reserva</a>
+          </li>
+        {% endfor %}
+      </ul>
+      
+      <!-- Sección del gráfico centrado -->
+      <div class="text-center" style="margin-top: 40px;">
+        <h3 style="color: #1867B7; margin-bottom: 20px;"><strong>Reservas por Profesor:</strong></h3>
+        <img src="data:image/png;base64,{{ grafico_profesor }}" alt="Gráfico de reservas por profesor" style="max-width: 55%; height: auto;">
+      </div>
+    {% else %}
+      <p class="text-center">No tienes ninguna reserva en este momento.</p>
+    {% endif %}
+  </div>
+{% endblock %}

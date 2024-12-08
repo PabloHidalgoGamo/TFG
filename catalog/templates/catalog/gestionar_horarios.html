@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; font-weight: bold; margin-bottom: 20px;">Establecer Horarios</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="dia" style="color: #555;">Día de la semana:</label>
+        {{ form.dia }}
+      </div>
+
+      <div class="form-group">
+        <label for="hora_inicio" style="color: #555;">Hora de Inicio:</label>
+        {{ form.hora_inicio }}
+      </div>
+
+      <div class="form-group">
+        <label for="hora_fin" style="color: #555;">Hora de Fin:</label>
+        {{ form.hora_fin }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Guardar Horario</button>
+    </form>
+
+    {% if horarios %}
+      <h3 class="text-center" style="color: #1867B7; font-weight: bold; margin-top: 30px;">Horarios Existentes</h3>
+      <ul class="list-group">
+        {% for horario in horarios %}
+          <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <p><strong>Día:</strong> {{ horario.dia }}</p>
+              <p><strong>Hora:</strong> {{ horario.hora_inicio|date:"g:i a" }} - {{ horario.hora_fin|date:"g:i a" }}</p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center">No has establecido ningún horario todavía.</p>
+    {% endif %}
+  </div>
+{% endblock %}

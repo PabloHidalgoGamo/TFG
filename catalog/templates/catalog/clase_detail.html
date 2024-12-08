@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; margin-bottom: 20px;"><strong>Detalles de la Clase</strong></h2>
+
+    <div class="class-info" style="margin-bottom: 20px;">
+      <h4><strong>Clase:</strong> {{ clase.nombre }}</h4>
+      <p><strong>Profesor:</strong> {{ clase.profesor.username }}</p>
+
+      <h5><strong>Horarios Disponibles:</strong></h5>
+      <ul class="list-group">
+        {% for horario, instancia, reserva_existente in horarios_con_instancias %}
+          <li class="list-group-item">
+            {{ horario.dia }}: {{ horario.hora_inicio|date:"g:i a" }} - {{ horario.hora_fin|date:"g:i a" }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <h5><strong>Sitios Disponibles para Reserva:</strong></h5>
+    <ul class="list-group">
+      {% for horario, instancia, reserva_existente in horarios_con_instancias %}
+        <li class="list-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+          {{ horario.dia }} ({{ horario.hora_inicio|date:"g:i a" }} - {{ horario.hora_fin|date:"g:i a" }})
+          {% if reserva_existente %}
+            <span>Ya tienes una reserva en este horario.</span>
+          {% elif instancia %}
+            <a href="{% url 'reservar_clase' instancia.id %}" class="btn btn-primary">Reservar</a>
+          {% else %}
+            <span>No hay sitios disponibles para este horario.</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

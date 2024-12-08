@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container" style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center" style="color: #1867B7; margin-bottom: 20px;"><strong>Reservar clase</strong></h2>
+
+    <p class="text-center">
+      Estás a punto de reservar una clase el <strong>{{ clase_instancia.horario.dia }}</strong>
+      ({{ clase_instancia.horario.hora_inicio|date:"g:i a" }} - {{ clase_instancia.horario.hora_fin|date:"g:i a" }}).
+    </p>
+    
+    <form method="post">
+      {% csrf_token %}
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary" style="width: 150px;">Confirmar Reserva</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
